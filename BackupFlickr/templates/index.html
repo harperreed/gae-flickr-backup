@@ -6,22 +6,31 @@ Welcome
 
 {% block content%}
 
+{% if photos %}
 <h2>Most Recent Backed Up Photos</h2>
 {% for p in photos %}
 <img src="/img/{{p.key}}?size=90" align="left" />
 {% endfor %}
-
 <br style="clear: both" />
+{% endif %}
 
 
+{% if not_backedup_photos %}
 <h2>Photos that didn't get backed up (>1M)</h2>
 <ul>
 {% for p in not_backedup_photos %}
 <li><a href="http://flickr.com/photo.gne?id={{p.photo_id}}" target="_nobackedup">{{p.photo_id}}</a> </li>
 {% endfor %}
 </ul>
-
 <br style="clear: both" />
+{% endif %}
+
+
+{% if not photos and not not_backedup_photos%}
+<h2>Get Started!</h2>
+<a href="/get_info">click here to kick the backup process off</a><br />
+(if you recently started - it may take a few moments for the photos to appear)
+{% endif %}
 
 
 {% endblock %}
