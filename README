@@ -1,4 +1,4 @@
-##Simple App Engine Flickr Backup##
+Simple App Engine Flickr Backup
 ----
 
 After I read about that dude losing all his photos (http://www.observer.com/2011/tech/flickr-accidentally-deletes-users-4000-photos-and-cant-get-them-back) I decided that I wanted to backup all of my photos to another datastore. Something that I pay for and allows me to do some shit with them. 
@@ -7,6 +7,15 @@ I decided that I would push them into the Google App Engine blobstore.
 
 This is the result of about 4 hours of hacking. I used Straup's FlickrApp container (https://github.com/straup/gae-flickrapp) to jumpstart the app. It is a hacked up version of webapp framework to allow you to use flickr as your SSO. It is pretty awesome - but probably a bit of overload for this app. 
 
-The app was built to be multitenant - but i haven't tested it extensively. 
+The app was built to be multitenant - but i haven't tested it extensively. YMMV
 
-There are some limitations to this that i need to get past, but for the most 
+Uses tasks to handle all the magic. 
+
+There are some limitations to this that i need to get past, but for the most part it backed up 80% of my photos rather quickly. 
+
+Limitations/TODO:
+* Can't seem to back up photos over 1mb (limit of GAE request size) (i might be able to do it client side)
+* It can get expensive to run (~10 bucks)
+* It doesn't backup sets, comments, etc 
+* It only backs up the photos
+* It currently runs forever (this will be fixed shortly)
