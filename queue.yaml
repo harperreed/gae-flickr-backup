@@ -1,0 +1,10 @@
+queue:
+- name: backupphoto 
+  rate: 10/s
+  bucket_size: 5
+- name: photoinfo 
+  rate: 10/s
+  bucket_size: 5
+- name: crawlphotos
+  rate: 2/s
+  bucket_size: 5

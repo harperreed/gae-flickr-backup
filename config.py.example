@@ -1,0 +1,7 @@
+config = {
+    'flickr_apikey' : '',
+    'flickr_apisecret' : '',
+    'flickr_minperms' : 'read',
+    'javascript_logging' : 0,
+    'per_page' : 20,
+};

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}
+Welcome
+{% endblock %}
+
+{% block content%}
+
+<h2>Most Recent Backed Up Photos</h2>
+{% for p in photos %}
+<img src="/img/{{p.key}}?size=90" align="left" />
+{% endfor %}
+
+<br style="clear: both" />
+
+
+<h2>Photos that didn't get backed up (>1M)</h2>
+<ul>
+{% for p in not_backedup_photos %}
+<li><a href="http://flickr.com/photo.gne?id={{p.photo_id}}" target="_nobackedup">{{p.photo_id}}</a> </li>
+{% endfor %}
+</ul>
+
+<br style="clear: both" />
+
+
+{% endblock %}
+

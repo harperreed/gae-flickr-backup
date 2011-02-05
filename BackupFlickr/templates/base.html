@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>{% block title %}{% endblock %} :: flickrbackrupr</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <link rel="shortcut icon" href="/images/favicon.ico" >
+   <script src="http://www.google.com/jsapi"></script>
+    <script>
+      // Load jQuery
+      google.load("jquery", "1");
+    </script>
+</head>
+
+<body>
+    <div class="content">
+        <h1>Flickr Backr Upr</h1>
+        <hr>
+            {% block content %}{% endblock %}
+        {% if crumb %}
+        <hr>
+        <p>You are logged in with your nata2 Flickr account<br /><br /><form method="POST" action="/signout"><input type="hidden" name="crumb" value="{{crumb}}" /><input type="submit" value="SIGN OUT" /></form></p>
+        {% endif %}
+
+    </div>
+</body>
+{% block scriptblock%}{% endblock %}
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-70650-29");
+pageTracker._initData();
+pageTracker._trackPageview();
+</script>
+</html>
