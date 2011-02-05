@@ -95,6 +95,7 @@ class MainApp(BackupFlickrApp) :
         not_backedup_photos = Photo.all()
         not_backedup_photos.filter("backed_up != ", True)
         not_backedup_photos.filter("user = ", user)
+        not_backedup_photos = not_backedup_photos.fetch(200)
 
         crumb = self.generate_crumb(self.user, 'logout')
         path = os.path.join(os.path.dirname(__file__), 'templates/index.html')
@@ -155,6 +156,8 @@ class GetPhotos(BackupFlickrApp) :
 
         per_page = config['per_page']
         page = flickr_user.current_page
+
+
         photos_rsp = self.api.execute_request(self.Flickr.API.Request(method='flickr.people.getPhotos', auth_token=flickr_user.token, user_id='me', format='json', nojsoncallback=1, per_page=per_page, page = page))
         if photos_rsp.code == 200:
             photos = simplejson.loads(photos_rsp.read())['photos']['photo']
@@ -178,7 +181,8 @@ class GetPhotos(BackupFlickrApp) :
             task_params={
                 'flickr_user_obj': flickr_user_obj,
                 }
-            taskqueue.Task(url='/get_photos', params=task_params, countdown=30).add(queue_name='crawlphotos',)
+            if page <  flickr_user.pages:
+                taskqueue.Task(url='/get_photos', params=task_params, countdown=30).add(queue_name='crawlphotos',)
             return
 
 class GetPhotoInfo(BackupFlickrApp) :
