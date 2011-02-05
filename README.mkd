@@ -2,7 +2,7 @@ Simple App Engine Flickr Backup
 ----
 
 
-## notes ##
+## Notes ##
 After I read about that [flickr accidentally deleting all of some dudes photos](http://www.observer.com/2011/tech/flickr-accidentally-deletes-users-4000-photos-and-cant-get-them-back) I decided that I wanted to backup all of my photos to another datastore. Something that I pay for and allows me to do some shit with them. 
 
 I decided that I would push them into the Google App Engine blobstore. 
@@ -21,3 +21,16 @@ There are some limitations to this that i need to get past, but for the most par
 * It doesn't backup sets, comments, etc 
 * It only backs up the photos
 * It currently runs forever (this will be fixed shortly)
+
+I am sure there are more things to fix.
+
+##Getting started##
+* copy the config.py.example to config.py
+* add your api credentials to config.py
+* edit the app.yaml file to point to the correct app engine app id
+* deploy
+* visit your app
+* start the process
+* magic
+
+
