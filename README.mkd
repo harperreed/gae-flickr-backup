@@ -1,6 +1,8 @@
 Simple App Engine Flickr Backup
 ----
 
+
+# background #
 After I read about that dude losing all his photos (http://www.observer.com/2011/tech/flickr-accidentally-deletes-users-4000-photos-and-cant-get-them-back) I decided that I wanted to backup all of my photos to another datastore. Something that I pay for and allows me to do some shit with them. 
 
 I decided that I would push them into the Google App Engine blobstore. 
