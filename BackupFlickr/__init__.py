@@ -1,4 +1,5 @@
 # http://github.com/straup/gae-flickrapp/tree/master
+from __future__ import with_statement
 
 from FlickrApp import FlickrApp
 from FlickrApp import FlickrAppNewUserException
@@ -15,6 +16,7 @@ import math
 import httplib, mimetypes
 from urllib2_file import UploadFile
  
+ 
 from google.appengine.api.urlfetch import ResponseTooLargeError, DownloadError
 from google.appengine.ext.webapp.util import login_required
 from google.appengine.ext import blobstore
@@ -26,6 +28,7 @@ from google.appengine.api import urlfetch
 from google.appengine.api import taskqueue
 from google.appengine.ext.webapp import template
 from google.appengine.api import images
+from google.appengine.api import files
 
 from config import config
 
@@ -224,12 +227,34 @@ class BackupPhoto(BackupFlickrApp) :
         photo_url = self.request.POST['photo_url']
         photo_obj = self.request.POST['photo_obj']
         photo_name = simplejson.loads(self.request.POST['photo_name'])
+        logging.info(photo_name)
+        logging.info(photo_url)
+        logging.info(photo_obj)
 
         try:
-            photo_string = StringIO(urllib2.urlopen(photo_url).read())
+            photo_string = urllib2.urlopen(photo_url).read()
         except (urllib2.HTTPError, DownloadError):
             pass
+        
+        logging.info(photo_string)
 
+
+        file_name = files.blobstore.create(_blobinfo_uploaded_filename=str(photo_name))
+
+        with files.open(file_name, 'a') as f:
+          f.write(photo_string)
+
+        files.finalize(file_name)
+
+        # Get the file's blob key
+        blob_info = files.blobstore.get_blob_key(file_name)
+        p = db.get(photo_obj)
+        p.backed_up = True
+        p.blob = blob_info
+        p.save()
+
+        """
+        #old crazy blob bounce
         try:
             upload_blob = UploadFile(photo_string, str(photo_name))
             upload_url = blobstore.create_upload_url('/receive_blob')
@@ -250,6 +275,7 @@ class BackupPhoto(BackupFlickrApp) :
               
         except urllib2.URLError, e:
            print "error"
+        """
             
 
         return
