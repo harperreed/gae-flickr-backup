@@ -1,6 +1,9 @@
 # http://github.com/straup/gae-flickrapp/tree/master
 
 from FlickrApp import FlickrApp
+from FlickrApp import FlickrAppNewUserException
+from FlickrApp import FlickrAppAPIException
+from FlickrApp import FlickrAppException
 from FlickrApp.Tables import dbFlickrUser
 import simplejson
 import urllib2_file
@@ -11,7 +14,6 @@ import logging
 import math
 import httplib, mimetypes
 from urllib2_file import UploadFile
-import blogstore_helper
  
 from google.appengine.api.urlfetch import ResponseTooLargeError, DownloadError
 from google.appengine.ext.webapp.util import login_required
@@ -290,23 +292,19 @@ class ServeImg(BackupFlickrApp):
 
 
 class TokenDance (BackupFlickrApp) :
-
     def get (self):
-
         try :
-
             new_users = True
-            self.do_token_dance(allow_new_users=new_users)
-            
-        except FlickrApp.FlickrAppNewUserException, e :
+            self.do_token_dance(allow_new_users=True)
+        #except FlickrApp.FlickrAppNewUserException, e :
+        except FlickrAppNewUserException, e :
             self.response.out.write('New user signups are currently disabled.')
 
-        except FlickrApp.FlickrAppAPIException, e :
+        except FlickrAppAPIException, e :
             self.response.out.write('The Flickr API is being cranky.')
 
-        except FlickrApp.FlickrAppException, e :
+        except FlickrAppException, e :
             self.response.out.write('Application error: %s' % e)
-      
         except Exception, e:
             self.response.out.write('Unknown error: %s' % e)
 
